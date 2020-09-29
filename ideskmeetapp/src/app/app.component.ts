@@ -1,6 +1,5 @@
 ﻿import { Component }             from '@angular/core';
 import { Router }                from '@angular/router';
-import { first }                 from 'rxjs/operators';
 import { AuthenticationService}  from './_services';
 import { User, }                 from './_modal';
 
@@ -19,7 +18,6 @@ export class AppComponent {
     ) {
         this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     }
-
 
     logout() {
         this.authenticationService.logout();

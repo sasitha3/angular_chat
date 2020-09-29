@@ -3,35 +3,80 @@ var path = require('path');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var https = require('https');
 const fileUpload = require('express-fileupload');
 var app = express();
 var cors = require('cors');
 var config = require('./constant/config');
 var fs = require('fs');
 var routes = require('./routes/api.routes');
+var app = require("express")();
+var http = require("http").createServer(app);
+var io = require("socket.io")(http);
 
 app.use(fileUpload());
 
 app.use(cors());
 
+const users = [];
+const messages = [];
+let currentId = 0;
+
 var mongoose = require('mongoose');
-var options = {
-  key: fs.readFileSync('/opt/meet.idesk.lk/keys/ssl-cert-idesk.key'),
-  cert: fs.readFileSync('/opt/meet.idesk.lk/keys/ssl-cert-idesk.crt'),
-  ca: fs.readFileSync('/opt/meet.idesk.lk/keys/bundle.crt')
-}
-
-/* ======================== Server ports ========================================== */
-
-https.createServer(options, app).listen(config.port, function () {
-  console.log("Https listening to port " + config.port);
-});
 
 /* ======================== Local ports =========================================== */
-// app.listen(config.port, function () {
-//   console.log('app listening on port ' + config.port);
-// });
+app.listen(config.port, function () {
+  console.log('app listening on port ' + config.port);
+});
+
+/* ======================== Socket Connection =========================================== */
+io.on("connection", function(socket) {
+  console.log("LOG:: a user connected");
+  socket.emit("get users list", JSON.stringify(users));
+  socket.emit("get messages history", JSON.stringify(messages));
+
+  socket.on("message", function(msg) {
+    console.log(
+      "LOG:: message from UserId: " + msg.userId + " --> " + msg.text
+    );
+    const message = {
+      ...msg,
+      timestamp: new Date()
+    };
+    messages.push(message);
+    io.emit("message", JSON.stringify(message));
+  });
+
+  socket.on("user name added", function(name) {
+    console.log("LOG:: user '" + name + "' entered the room");
+    const newUser = {
+      name,
+      id: ++currentId,
+      isCurrent: false
+    };
+
+    users.push(newUser);
+    socket.emit("my user added", JSON.stringify(newUser));
+    io.emit("user name added", JSON.stringify(newUser));
+  });
+
+  socket.on("disconnect", function(name) {
+    console.log("LOG:: user disconnected");
+    console.log(name);
+
+  });
+  
+  socket.on('room', room => {
+    socket.join(room)
+    console.log(room)
+ })
+
+});
+/* ======================== End socket   ==========================================  */
+
+/* ======================== Socket ports =========================================== */
+http.listen(3000, function() {
+  console.log("LOG:: listening on *:3000");
+});
 
 mongoose.connect(config.dbe);
 

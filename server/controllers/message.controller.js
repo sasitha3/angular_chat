@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 // var config = require('../constant/config');
 var statusCode = require('../constant/status_codes');
 var respones = require('../constant/responses');
-var ClassRoom = require('../models/class.model');
+var ClassRoom = require('../models/user.model');
 const e = require('express');
 
 /**

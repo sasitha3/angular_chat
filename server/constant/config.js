@@ -5,9 +5,9 @@ const config = {
     port: 8082,
 
     /* Live databse */
-    dbe : 'mongodb://localhost/meet',
+    dbe : 'mongodb://localhost/chat',
 
-    secret: 'meetJitsiOwner'
+    secret: 'chatServer'
 
 };
 

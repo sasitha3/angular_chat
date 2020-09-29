@@ -4,7 +4,7 @@ var statusCode = require('../constant/status_codes');
 var respones = require('../constant/responses');
 
 // Pass the path to your zuliprc file here.
-var Jitsi = require('../models/jitsi.model');
+var Jitsi = require('../models/message.model');
 const { response } = require('../app');
 
 /**
