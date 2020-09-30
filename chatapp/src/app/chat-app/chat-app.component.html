@@ -1,10 +1,4 @@
 <section class="main">
-  <header>
-    <h4>Ascentic Chat</h4>
-  </header>
-  <section *ngIf="!currentUser">
-    <chat-name-popup (onUserNameChange)="handleName($event)"></chat-name-popup>
-  </section>
   <section *ngIf="currentUser" class="chat-holder">
     <article>
       <chat-window

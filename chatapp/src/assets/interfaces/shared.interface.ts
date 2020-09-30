@@ -1,6 +1,6 @@
 export interface IUser {
   name: string;
-  id: number;
+  id: string;
   isCurrent: boolean;
 }
 

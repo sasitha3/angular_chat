@@ -1,7 +1,7 @@
 ﻿<app-spin></app-spin>
 <nav class="navbar navbar-expand navbar-light " *ngIf="currentUser">
     <div class="navbar-nav">
-        
+      <a class="nav-item nav-link" routerLink="/" >{{currentUser.name.toUpperCase()}}</a>
     </div>
         <div class="collapse navbar-collapse" id="navbar-primary">
           

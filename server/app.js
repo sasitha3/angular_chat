@@ -31,6 +31,7 @@ io.on("connection", function(socket) {
   socket.emit("get messages history", JSON.stringify(messages));
 
   socket.on("message", function(msg) {
+    console.log('*** line 1');
     console.log(
       "LOG:: message from UserId: " + msg.userId + " --> " + msg.text
     );
@@ -39,26 +40,30 @@ io.on("connection", function(socket) {
       timestamp: new Date()
     };
     messages.push(message);
+    console.log(messages);
     io.emit("message", JSON.stringify(message));
   });
 
-  socket.on("user name added", function(name) {
-    console.log("LOG:: user '" + name + "' entered the room");
-    const newUser = {
-      name,
-      id: ++currentId,
+  socket.on("user name added", function(data) {
+    console.log("LOG:: user '" + data.name + "' entered the room");
+    
+    console.log(users);
+    // console.log(name);
+    const { length } = users;
+    const ids = length + 1;
+    const found = users.some(el => el.name === data.name);
+    if (!found) users.push({
+      name:data.name,
+      id: data.id,
       isCurrent: false
-    };
-
-    users.push(newUser);
-    socket.emit("my user added", JSON.stringify(newUser));
-    io.emit("user name added", JSON.stringify(newUser));
+    });
+    socket.emit("my user added", JSON.stringify(users));
+    io.emit("user name added", JSON.stringify(users));
   });
 
   socket.on("disconnect", function(name) {
     console.log("LOG:: user disconnected");
     console.log(name);
-
   });
   
   socket.on('room', room => {
