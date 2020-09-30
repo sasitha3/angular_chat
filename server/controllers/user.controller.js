@@ -4,38 +4,37 @@ var statusCode = require('../constant/status_codes');
 var respones = require('../constant/responses');
 
 // Pass the path to your zuliprc file here.
-var Jitsi = require('../models/message.model');
-const { response } = require('../app');
+var User = require('../models/user.model');
 
 /**
  * POST
- * Register partner
+ * Register user
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
  */
-function JWTCraete(req, res, next) {
+function CreateUsers(req, res, next) {
 
-  var token = jwt.sign({
-    "context": {
-      "user": {
-        "avatar" : req.body.Avatar,
-        "name"   : req.body.Name,
-        "email"  : req.body.Email
-        }
-      },
-      "aud"  : "meet.idesk.lk",
-      "iss"  : "meet-idesk-app-id",
-      "sub"  : "meet.idesk.lk",
-      "room" : req.body.Room
-    }, 
-    'meet-idesk-token-secret'
-  );
   res.json(
-  respones.success(statusCode.CREATED, 'Token created', '', token)
+    respones.success(statusCode.CREATED, 'Token created', '', 'Success')
+  );
+}
+
+/**
+ * POST
+ * Login user
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+function Login(req, res, next) {
+  
+  res.json(
+    respones.success(statusCode.CREATED, 'Token created', 'Logged in', 'Success')
   );
 }
 
 module.exports = {
-  JWTCraete
+  CreateUsers,
+  Login
 };

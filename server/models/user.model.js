@@ -7,7 +7,6 @@ var UserSchema = Schema({
     name     : { type: String,  required: true, unique: false },
     userName : { type: String,  required: true, unique: true  },
     password : { type: String,  required: true, unique: false },
-    isOnline : { type: Boolean, required: true, unique: false },
 });
 
 

@@ -1,10 +1,10 @@
 var express = require('express');
 var router  = express.Router();
-var Class   = require('../controllers/message.controller');
+var Message = require('../controllers/message.controller');
 
-router.route('/')
-    .get(Class.GetAllClasses)
-    .post(Class.CreateClass);
+// router.route('/')
+//     .get(Message.GetAllClasses)
+//     .post(Message.CreateClass);
 
 
 module.exports = router;

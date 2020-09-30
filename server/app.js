@@ -3,17 +3,13 @@ var path = require('path');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload');
 var app = express();
 var cors = require('cors');
 var config = require('./constant/config');
-var fs = require('fs');
 var routes = require('./routes/api.routes');
 var app = require("express")();
 var http = require("http").createServer(app);
 var io = require("socket.io")(http);
-
-app.use(fileUpload());
 
 app.use(cors());
 
@@ -66,8 +62,8 @@ io.on("connection", function(socket) {
   });
   
   socket.on('room', room => {
-    socket.join(room)
-    console.log(room)
+    socket.join(room);
+    console.log(room);
  })
 
 });
